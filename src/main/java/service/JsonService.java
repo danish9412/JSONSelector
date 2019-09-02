@@ -11,10 +11,12 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class JsonService {
 
+    private HashMap<String, List<JSONObject>> hashMap = new HashMap<String, List<JSONObject>>();
     /**
      * @param url source for JSON as a String
      * @return  JSON from the URL
@@ -51,7 +53,14 @@ public class JsonService {
             System.out.println("Please enter a valid selector.");
             return jsonObjectList;
         }
-        return find(jsonObject, selector, jsonObjectList);
+        if(getCacheResults(selector)!=null) {
+            return getCacheResults(selector);
+        } else {
+            jsonObjectList = find(jsonObject, selector, jsonObjectList);
+            addCacheResults(selector, jsonObjectList);
+        }
+
+        return  jsonObjectList;
     }
 
     /**
@@ -108,4 +117,24 @@ public class JsonService {
         System.out.println("JSON Objects count: " + jsonObjectList.size());
         System.out.println("---------------------------------");
     }
+
+    /**
+     * @return List of JSON objects which have already been queried, else returns null
+     */
+    private List<JSONObject> getCacheResults(String selector) {
+         if(hashMap.containsKey(selector)){
+             return hashMap.get(selector);
+         }
+         return null;
+    }
+
+    /**
+     * @param selector value of selector from the user as a String
+     * @param jsonObjectList list of json objects from the JSON
+     * adds the results to hashmap to build the cache
+     */
+    private void addCacheResults(String selector, List<JSONObject> jsonObjectList) {
+        hashMap.put(selector, jsonObjectList);
+    }
+
 }

@@ -1,5 +1,7 @@
 package service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,7 +14,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class JsonService {
@@ -88,5 +89,12 @@ public class JsonService {
             }
         }
         return selectorList;
+    }
+
+    public void printJsonList(List<JSONObject> jsonObjectList) {
+        Gson g = new GsonBuilder().setPrettyPrinting().create();
+        for(JSONObject jsonObject : jsonObjectList){
+            System.out.println(g.toJson(jsonObject));
+        }
     }
 }

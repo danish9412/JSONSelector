@@ -39,6 +39,14 @@ public class JsonService {
     }
 
     /**
+     * @return populated selectorList of JSON Objects by recursively searching the given JSONObject
+     */
+    public List<JSONObject> find(JSONObject jsonObject, String selector) {
+        List<JSONObject> jsonObjectList = new ArrayList<JSONObject>();
+        return find(jsonObject, selector, jsonObjectList);
+    }
+
+    /**
      * @param jsonObject value of selector from the user as a String
      * @param selector value of selector from the user as a String
      * @param selectorList value of selector from the user as a String
